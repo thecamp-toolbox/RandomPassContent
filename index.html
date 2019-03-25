@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>Randomize</title>
+</head>
+<body>
+
+<script type="text/javascript">
+
+// define random pages url, per themes
+var randomPages = [];
+
+randomPages["PARAM1"] =
+                  ["https://www.youtube.com/watch?v=IUMTaAQ43lY",
+                   "https://www.youtube.com/watch?v=9cmWFdBYM0M",
+                   "https://www.youtube.com/watch?v=KW3Vg-aiey0",
+                   "https://www.youtube.com/watch?v=qyRnqVAS_ho",
+                   "https://www.youtube.com/watch?v=DiTR5ExSAWw"];
+
+randomPages["PARAM2"] =
+                  ["https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Array/push",
+                  "https://stackoverflow.com/questions/4291431/how-to-get-the-keys-of-an-array-using-javascript",
+                  "https://translate.google.com/#view=home&op=translate&sl=fr&tl=en&text=Le%20management%20par%20l%E2%80%99engagement"];
+
+randomPages["PARAM3"] =
+                  ["https://www.youtube.com/watch?v=IUMTaAQ43lY",
+                   "https://www.youtube.com/watch?v=9cmWFdBYM0M",
+                   "https://www.youtube.com/watch?v=KW3Vg-aiey0",
+                   "https://www.youtube.com/watch?v=qyRnqVAS_ho",
+                   "https://www.youtube.com/watch?v=DiTR5ExSAWw"];
+
+
+
+//Get url parameter "theme"
+var theme = getURLParameter('theme');
+
+//Get possible themes
+var possibleThemes = getArrayKeys(randomPages,'array');
+
+// check parameter value
+if (!possibleThemes.includes(theme)) {
+  //TODO value = donner l'exemple d'une url
+  document.write("Merci de préciser un paramètre 'theme' dans l'url avec une des valeurs suivantes : " + getArrayKeys(randomPages,'string'));
+}else {
+  //check if theme exists
+  if (randomPages[theme] === undefined) {
+      document.write("Le paramètre utilisé n'est pas reconnu, merci d'utiliser les valeurs suivantes :" + getArrayKeys(randomPages,'string'));
+  }else{
+    //theme and data exists, redirection to random
+    var itemSelected = randomPages[theme][Math.floor(Math.random()*randomPages[theme].length)];
+    if (itemSelected !== undefined) window.location.href = itemSelected;
+  }
+}
+
+
+
+
+function getArrayKeys(array, returnMode) {
+
+  if(returnMode == "string") {var data = "<ul>"} else {var data = []};
+
+  for(var key in array) {
+    if(array.hasOwnProperty(key)) {
+      if(returnMode == "string") {data += '<li><a href="'+ addParameterToURL("theme", key)+'">'+ key + '</a></li>'} else {data.push(key)};
+    }
+  }
+
+  if(returnMode == "string") { data += "</ul>";}
+
+  return data;
+}
+
+function getURLParameter(name) {
+  return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [null, ''])[1].replace(/\+/g, '%20')) || null;
+}
+
+function addParameterToURL(param, value){
+    var url = location.href;
+    url += (url.split('?')[1] ? '&':'?') + param + "=" + value;
+    return url;
+}
+
+</script>
+
+</body>
+</html>
